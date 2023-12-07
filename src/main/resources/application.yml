@@ -1,0 +1,19 @@
+server:
+  port: 8090
+
+spring:
+  r2dbc:
+    url: r2dbc:pool:postgres://localhost:5432/callweatherapi
+    username: postgres
+    password: 1234
+
+auth:
+  validapikey: 14ce09bc-1c77-4b27-bb65-56f706be9f4d
+  headername: X-API-key
+
+util:
+  webclient:
+    baseurl: http://localhost:8085/api
+    timeout: 2000
+  batch:
+    size: 100

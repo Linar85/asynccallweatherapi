@@ -1,0 +1,56 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.0'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.session:spring-session-core'
+
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	implementation 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+	annotationProcessor "org.mapstruct:mapstruct-processor:$mapStructVersion"
+
+	implementation 'javax.xml.bind:jaxb-api:2.3.0'
+	compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.0.0'
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.16.0-rc1'
+	implementation "com.google.code.findbugs:jsr305:$googleFindBugsVersion"
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'org.postgresql:r2dbc-postgresql'
+	implementation group: 'io.r2dbc', name: 'r2dbc-postgresql', version: '0.8.13.RELEASE'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation group: 'org.testcontainers', name: 'r2dbc', version: '1.19.2'
+	testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.19.2'
+	testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.19.2'
+	testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: '4.12.0'
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.12.0'
+
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
