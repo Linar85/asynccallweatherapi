@@ -5,6 +5,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.example.asynccallweatherapi.entity.Weather;
 import com.example.asynccallweatherapi.repository.WeatherRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,7 @@ class WeatherServiceTest {
 
     @BeforeEach
     public void initData() {
+
         weathers.clear();
         for (int i = 0; i < 10; i++) {
             weathers.add(Weather.builder()
@@ -46,12 +48,18 @@ class WeatherServiceTest {
                     .deltaTemp(2 * i)
                     .build());
         }
+
         Logger logger = (Logger) LoggerFactory.getLogger(LOGGER_NAME);
         memoryAppender = new MemoryAppender();
         memoryAppender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
         logger.setLevel(Level.DEBUG);
         logger.addAppender(memoryAppender);
         memoryAppender.start();
+    }
+
+    @AfterEach
+    public void close(){
+        memoryAppender.stop();
     }
 
     @Test

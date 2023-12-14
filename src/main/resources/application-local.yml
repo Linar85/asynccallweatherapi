@@ -1,11 +1,11 @@
+server:
+  port: 8090
 
 spring:
-  config:
-    import: optional:file:.env[.properties]
   r2dbc:
-    url: ${R2DBC_URL}
-    username: ${R2DBC_USER}
-    password: ${R2DBC_PASSWORD}
+    url: r2dbc:pool:postgres://localhost:5432/callweatherapi
+    username: postgres
+    password: 1234
 
 auth:
   validapikey: 6240a723-d269-41c8-9d12-7321d406e72e

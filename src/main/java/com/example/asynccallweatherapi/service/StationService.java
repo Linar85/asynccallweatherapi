@@ -3,16 +3,13 @@ package com.example.asynccallweatherapi.service;
 import com.example.asynccallweatherapi.entity.Station;
 import com.example.asynccallweatherapi.repository.StationRepository;
 import com.example.asynccallweatherapi.repository.WeatherRepository;
-import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -38,8 +35,8 @@ public class StationService {
 //    private final DatabaseClient databaseClient;
 //    private final PostgresqlConnectionFactory connectionFactory;
 
-    @Value("${util.batch.size}")
-    private Integer BATCH_SIZE;
+//    @Value("${util.batch.size}")
+//    private Integer BATCH_SIZE;
     public ArrayBlockingQueue<Station> arrayBlockingQueue = new ArrayBlockingQueue<>(1000);
     public Map<String, Integer> deltaMap = new ConcurrentHashMap<>();
 
@@ -58,7 +55,6 @@ public class StationService {
                 .retrieve()
                 .bodyToFlux(Station.class)
                 .flatMap(stationRepository::save)
-                //TODO убрать очередь
                 .doOnNext(station -> arrayBlockingQueue.add(station))
                 .doOnNext(station -> deltaMap.put(station.getStationCode(), 0))
                 .then();
